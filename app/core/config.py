@@ -22,8 +22,8 @@ MONGODB_URL = os.getenv("MONGODB_URL", "")
 if not MONGODB_URL:
     MONGO_HOST = os.getenv("MONGO_HOST", "localhost")
     MONGO_PORT = int(os.getenv("MONGO_PORT", 27017))
-    MONGO_USER = os.getenv("MONGO_USER", "")
-    MONGO_PASS = os.getenv("MONGO_PASSWORD", "")
+    MONGO_USER = os.getenv("MONGO_USER", "moctor")
+    MONGO_PASS = os.getenv("MONGO_PASSWORD", "moctor")
     MONGO_DB = os.getenv("MONGO_DB", "moctor")
 
     MONGODB_URL = DatabaseURL(

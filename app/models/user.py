@@ -42,6 +42,8 @@ class UserInLogin(RWModel):
 
 class UserInCreate(UserInLogin):
     username: str
+    city: str
+    state: str
 
 
 class UserInUpdate(RWModel):

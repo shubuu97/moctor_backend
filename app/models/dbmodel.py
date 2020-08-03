@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 
 
 class DateTimeModelMixin(BaseModel):
-    created_at: Optional[datetime] = Field(..., alias="createdAt")
-    updated_at: Optional[datetime] = Field(..., alias="updatedAt")
+    created_at: Optional[datetime] = Field(default=datetime.utcnow(), alias="createdAt")
+    updated_at: Optional[datetime] = Field(default=datetime.utcnow(), alias="updatedAt")
 
 
 class DBModelMixin(DateTimeModelMixin):

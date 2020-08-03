@@ -19,6 +19,7 @@ access_token_jwt_subject = "access"
 
 
 def _get_authorization_token(authorization: str = Header(...)):
+    print(f"USER GET: {authorization}")
     token_prefix, token = authorization.split(" ")
     if token_prefix != JWT_TOKEN_PREFIX:
         raise HTTPException(
@@ -32,13 +33,13 @@ async def _get_current_user(
     db: AsyncIOMotorClient = Depends(get_database), token: str = Depends(_get_authorization_token)
 ) -> User:
     try:
+        print(f"GET CURRENT USER {token}")
         payload = jwt.decode(token, str(SECRET_KEY), algorithms=[ALGORITHM])
         token_data = TokenPayload(**payload)
     except PyJWTError:
         raise HTTPException(
             status_code=HTTP_403_FORBIDDEN, detail="Could not validate credentials"
         )
-
     dbuser = await get_user(db, token_data.username)
     if not dbuser:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="User not found")
