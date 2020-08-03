@@ -49,5 +49,13 @@ class Order(RWModel):
     total_amount: float
 
 
+class OrdersInResponse(RWModel):
+    orders: List[Order]
+
+
+class OrderRequest(RWModel):
+    username: str
+
+
 class OrderInDB(DBModelMixin, DateTimeModelMixin, Order):
     pass

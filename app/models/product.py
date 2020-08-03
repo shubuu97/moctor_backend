@@ -69,7 +69,7 @@ class Product(ProductMin):
     safety_advice: Optional[Advice] = None
 
 
-class Products(RWModel):
+class ProductsInResponse(RWModel):
     products: List[Product]
 
 

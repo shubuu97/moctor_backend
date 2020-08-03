@@ -1,7 +1,7 @@
 from typing import List
 
 from ..db.mongodb import AsyncIOMotorClient
-from ..models.product import ProductInDB, ProductFilterParams
+from ..models.product import ProductInDB, ProductFilterParams, Product
 from ..core.config import database_name, products_collection_name
 
 
@@ -19,6 +19,24 @@ async def get_all_products(
             )
         )
     return products
+
+
+async def get_product_by_name(
+        conn: AsyncIOMotorClient, product_name: str
+) -> ProductInDB:
+    product_doc = await conn[database_name][products_collection_name].find_one({"name": product_name})
+
+    product = ProductInDB(**product_doc)
+    return product
+
+
+async def create_product(
+        conn: AsyncIOMotorClient, product: Product
+) -> ProductInDB:
+    product_dict = product.dict()
+    await conn[database_name][products_collection_name].insert_one(product_dict)
+
+    return ProductInDB(**product_dict)
 
 
 async def get_products_with_filter(
