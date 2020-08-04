@@ -1,3 +1,5 @@
+from typing import List
+
 from ..models.inventory import Inventory, InventoryInDB
 from ..db.mongodb import AsyncIOMotorClient
 from ..core.config import inventory_collection_name, database_name
@@ -9,6 +11,18 @@ async def get_inventory_for_product(
     inventory_doc = conn[database_name][inventory_collection_name].find({"product": product_name})
     inventory = InventoryInDB(**inventory_doc)
     return inventory
+
+
+async def get_inventory_for_products(
+    conn: AsyncIOMotorClient, product_names: str
+) -> InventoryInDB:
+    inventories: List[InventoryInDB] = []
+    inventory_docs = conn[database_name][inventory_collection_name].find(
+        {"product": f"$all: {product_names}"}
+    )
+    for row in inventory_docs:
+        inventories.append(**row)
+    return inventories
 
 
 async def create_inventory(

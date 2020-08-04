@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from .dbmodel import DBModelMixin, DateTimeModelMixin
 from .rwmodel import RWModel
@@ -17,3 +17,7 @@ class Inventory(RWModel):
 
 class InventoryInDB(DBModelMixin, DateTimeModelMixin, Inventory):
     pass
+
+
+class InventoriesInResponse(RWModel):
+    inventories: List[InventoryInDB]
